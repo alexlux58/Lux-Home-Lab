@@ -375,6 +375,10 @@ Automated AWS cost monitoring and alerting system that sends daily cost reports 
 - ✅ Report archiving in S3
 - ✅ Optional cost remediation
 
+![AWS Cost Alert Email](images/AWS-costalert-email.png)
+
+*Example daily cost report email showing cost breakdown and top services.*
+
 **Components:**
 - AWS Lambda (cost reporter function)
 - EventBridge Scheduler (daily 7am trigger)
