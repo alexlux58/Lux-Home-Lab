@@ -5,6 +5,8 @@
 **Date:** December 2024  
 **Environment:** Home Lab - Proxmox VE on Intel NUC
 
+> **Quick Reference Available**: For command cheat sheets and quick troubleshooting, see `QUICK_REFERENCE.md` in this directory.
+
 ---
 
 ## Table of Contents
