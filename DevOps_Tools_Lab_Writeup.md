@@ -1050,7 +1050,7 @@ stage('Update NetBox') {
 
 ## Conclusion
 
-This lab successfully deployed a comprehensive DevOps toolchain including Ansible, AWS CLI/SDK, Puppet, and Jenkins, providing infrastructure automation, configuration management, and CI/CD capabilities.
+This project deployed a comprehensive DevOps toolchain including Ansible, AWS CLI/SDK, Puppet, and Jenkins, providing infrastructure automation, configuration management, and CI/CD capabilities.
 
 **Final Status:**
 - ✅ Ansible installed and configured

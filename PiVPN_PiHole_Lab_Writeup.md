@@ -24,7 +24,7 @@
 11. [Router Port Forward Configuration](#router-eero--port-forward-for-wireguard)
 12. [Validation Checklist](#validation-checklist-copypaste)
 13. [Troubleshooting Playbook](#troubleshooting-playbook)
-14. [Show This Off to Employers](#show-this-off-to-employers-section)
+14. [Key Skills Demonstrated](#key-skills-demonstrated)
 15. [Quick Build Script](#quick-copypaste-build-script-high-level)
 
 ---
@@ -77,7 +77,7 @@ Internet → Eero Router → LAN Devices (use Pi-hole DNS)
 
 ### Network Configuration (Example)
 
-Based on your environment:
+Example configuration:
 
 - **LAN subnet**: 192.168.4.0/22 (covers 192.168.4.0 – 192.168.7.255)
 - **PiVPN host**:
@@ -134,10 +134,10 @@ Phone/Laptop → WireGuard tunnel → PiVPN host → LAN resources
 - Minimum 1GB RAM (2GB+ recommended)
 - 8GB+ storage (SD card or disk)
 
-### What You Need
+### Prerequisites
 
 1. **Local shell access** (SSH)
-2. **A stable LAN IP** for the host (we'll set this via DHCP reservation)
+2. **A stable LAN IP** for the host (set via DHCP reservation)
 3. **eero admin access** (to set DHCP reservation + custom DNS)
 4. Root or sudo access on the host
 
@@ -145,7 +145,7 @@ Phone/Laptop → WireGuard tunnel → PiVPN host → LAN resources
 
 ## Step 1 — Stabilize the Host IP (Important)
 
-Your `ip a` shows:
+Example `ip a` output:
 ```
 inet 192.168.4.127/22 ... dynamic
 ```
@@ -154,7 +154,7 @@ inet 192.168.4.127/22 ... dynamic
 
 ### Identify MAC Address
 
-From your output:
+From the output:
 ```
 eth0 MAC: b8:27:eb:51:7c:e7
 ```
@@ -166,7 +166,7 @@ eth0 MAC: b8:27:eb:51:7c:e7
    - Navigate to **Network Settings** > **DHCP & NAT** or **Reservations**
 
 2. **Add reservation**
-   - **Device**: Select your Pi (or add manually)
+   - **Device**: Select the Pi (or add manually)
    - **MAC Address**: `b8:27:eb:51:7c:e7`
    - **IP Address**: `192.168.4.127`
    - **Save**
@@ -210,7 +210,7 @@ curl -L https://install.pivpn.io | bash
 - **Option 2**: If VPN is "remote access only" and you don't care about DNS filtering remotely: choose **Cloudflare** (1.1.1.1) or **Quad9** (9.9.9.9)
 
 **User for management:**
-- Select your current user (or create a dedicated user)
+- Select the current user (or create a dedicated user)
 
 ### Enable IP Forwarding
 
@@ -279,14 +279,14 @@ curl -sSL https://install.pi-hole.net | bash
 ### Installer Choices
 
 **Interface:**
-- Select **eth0** (or your primary LAN interface)
+- Select **eth0** (or the primary LAN interface)
 
 **IP:**
 - Should auto-detect: **192.168.4.127/22**
-- Verify this matches your static IP
+- Verify this matches the static IP
 
 **Upstream DNS:**
-- Your choice:
+- Choose from:
   - **Cloudflare**: 1.1.1.1, 1.0.0.1
   - **Quad9**: 9.9.9.9, 149.112.112.112
   - **Google**: 8.8.8.8, 8.8.4.4
@@ -316,10 +316,10 @@ Then rerun the Pi-hole installer.
 
 ### Post-Installation
 
-**Note your admin password:**
+**Note the admin password:**
 - The installer will display a random password
-- Save it! You'll need it to access the web UI
-- You can change it later: `pihole -a -p`
+- Save it for accessing the web UI
+- Can be changed later: `pihole -a -p`
 
 **Access web UI:**
 - URL: `http://192.168.4.127/admin`
@@ -383,7 +383,7 @@ sudo pihole -t
 
 ### Example Output (Annotated)
 
-Based on your pasted output:
+Based on the pasted output:
 
 ```
 16:51:38: query[A] app-analytics-v2.snapchat.com from 192.168.5.2
@@ -470,7 +470,7 @@ pivpn -qr alexPhone
 
 ### Deliver Client Configs to Devices
 
-You already have:
+The config files are available:
 ```bash
 ls ~/configs
 # alexPhone.conf  workyLaptop.conf
@@ -478,7 +478,7 @@ ls ~/configs
 
 #### Option A — SCP to a Laptop (macOS/Linux)
 
-From your laptop, pull the file:
+From the laptop, pull the file:
 ```bash
 scp alexlux58@192.168.4.127:~/configs/workyLaptop.conf .
 ```
@@ -541,7 +541,7 @@ This allows:
 
 ## Router (Eero) — Port Forward for WireGuard
 
-If you want to connect from outside your house:
+To connect from outside the house:
 
 ### Configure Port Forward
 
@@ -559,11 +559,11 @@ If you want to connect from outside your house:
 
 ### Test from Mobile Data
 
-1. **Disable Wi-Fi** on your phone
+1. **Disable Wi-Fi** on the phone
 2. **Connect WireGuard** tunnel
 3. **Test connectivity**:
    ```bash
-   # From phone (if you have terminal access)
+   # From phone (if terminal access is available)
    ping 192.168.4.127
    
    # Or access a LAN-only service (e.g., Pi-hole web UI)
@@ -572,7 +572,7 @@ If you want to connect from outside your house:
 
 ### Dynamic DNS (Optional)
 
-If your public IP changes, consider setting up Dynamic DNS:
+If the public IP changes, consider setting up Dynamic DNS:
 
 1. **Services**: DuckDNS, No-IP, or your domain registrar
 2. **Update client config**: Replace `<your_public_ip>` with `<your-ddns-hostname>`
@@ -599,7 +599,7 @@ sudo ss -lntup | egrep ':53|:80|:51820'
 ```
 
 **Expected:**
-- `eth0` has your stable LAN IP (192.168.4.127/22)
+- `eth0` has the stable LAN IP (192.168.4.127/22)
 - `wg0` is up with 10.155.185.1/24
 - Port 53 and 80 listening (Pi-hole)
 - Port 51820 listening (WireGuard)
@@ -701,7 +701,7 @@ sudo iptables -L -n -v
 - Test with `nc -u -v <your_public_ip> 51820` (from outside)
 
 **Verify public IP / DDNS matches:**
-- Check client config `Endpoint` matches your public IP
+- Check client config `Endpoint` matches the public IP
 - If using DDNS, verify it resolves correctly
 
 **Confirm server is listening:**
@@ -750,22 +750,22 @@ DNS = 1.1.1.1
 
 ---
 
-## "Show This Off to Employers" Section
+## Key Skills Demonstrated
 
-### What This Demonstrates
+### What This Project Shows
 
 1. **Network architecture design:**
-   - You designed a clean home network service boundary
-   - LAN DNS filtering without exposing DNS to WAN
+   - Designed a clean home network service boundary
+   - Implemented LAN DNS filtering without exposing DNS to WAN
    - WireGuard-only exposure, minimal attack surface
 
 2. **Operational expertise:**
-   - You can operate and troubleshoot production-style services
+   - Can operate and troubleshoot production-style services
    - Validations (`wg show`, `pihole -t`, `ss -lntup`)
    - Log interpretation (blocked vs forwarded vs cached)
 
 3. **Security mindset:**
-   - You understand secure defaults + operational ergonomics
+   - Understanding of secure defaults + operational ergonomics
    - Minimal port exposure (only WireGuard)
    - Proper network isolation (LAN-only DNS)
 
@@ -854,7 +854,7 @@ pivpn -qr <clientName>
 
 ## Conclusion
 
-This lab successfully deployed a combined Pi-hole + PiVPN WireGuard stack on a single Linux host, providing network-wide ad blocking and secure remote access. The system demonstrates production-ready network services with secure defaults and operational tooling.
+This project deployed a combined Pi-hole + PiVPN WireGuard stack on a single Linux host, providing network-wide ad blocking and secure remote access. The system provides production-ready network services with secure defaults and operational tooling.
 
 **Final Status:**
 - ✅ Pi-hole filtering LAN DNS queries

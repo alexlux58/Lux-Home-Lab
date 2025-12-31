@@ -867,7 +867,7 @@ pipeline {
 
 ## Conclusion
 
-This lab successfully deployed NetKnife, a serverless network and security tool suite, demonstrating modern serverless architecture, Infrastructure as Code, and web application development practices.
+This project deployed NetKnife, a serverless network and security tool suite, covering modern serverless architecture, Infrastructure as Code, and web application development practices.
 
 **Final Status:**
 - ✅ Terraform infrastructure deployed

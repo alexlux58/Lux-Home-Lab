@@ -699,7 +699,7 @@ docker volume inspect <volume-name>
 
 ## Conclusion
 
-This lab successfully deployed NetBox and Nautobot as containerized Network Source of Truth platforms, providing comprehensive IPAM and DCIM capabilities for network infrastructure documentation and management.
+This project deployed NetBox and Nautobot as containerized Network Source of Truth platforms, providing comprehensive IPAM and DCIM capabilities for network infrastructure documentation and management.
 
 **Final Status:**
 - ✅ NetBox deployed and accessible

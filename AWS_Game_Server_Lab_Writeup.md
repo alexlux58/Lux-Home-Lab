@@ -98,7 +98,7 @@ Web Interface
 
 - **EC2 Instance**: Public IP (dynamic or Elastic IP)
 - **Security Group**: 
-  - Port 22 (SSH) - Restricted to your IP
+  - Port 22 (SSH) - Restricted to specific IP
   - Port 80 (HTTP) - Public
   - Port 443 (HTTPS) - Public (if SSL configured)
 - **Domain**: Optional (via Cloudflare)
@@ -616,7 +616,7 @@ sudo docker logs quakejs
 **Solutions:**
 - Verify SSH key path in `.env`
 - Check key permissions: `chmod 400 terraform.pem`
-- Ensure `ssh_allowed_cidr` matches your IP
+- Ensure `ssh_allowed_cidr` matches the IP
 - Wait 60 seconds after instance creation for SSH to be ready
 
 **4. Games not loading**
@@ -762,14 +762,14 @@ aws ec2 start-instances --instance-ids $(cd terraform && terraform output -raw i
 1. **AWS Credentials**: Valid AWS access keys with proper permissions
 2. **SSH Key**: Correct permissions and path configuration
 3. **Unique Names**: S3 bucket names must be globally unique
-4. **Network Access**: Security group allows your IP for SSH
+4. **Network Access**: Security group allows the IP for SSH
 5. **Wait Time**: Allow 60 seconds after instance creation for SSH
 
 ### Common Pitfalls
 
 1. **Wrong SSH Key Permissions**: Must be 400 (`chmod 400`)
 2. **S3 Bucket Name Conflicts**: Use unique names with account ID
-3. **Security Group Rules**: Ensure your IP is whitelisted
+3. **Security Group Rules**: Ensure the IP is whitelisted
 4. **Python Version**: EC2 user_data handles this automatically
 5. **Cloudflare Token**: Use dummy value if not using Cloudflare
 
@@ -785,7 +785,7 @@ aws ec2 start-instances --instance-ids $(cd terraform && terraform output -raw i
 
 ## Conclusion
 
-This lab successfully deployed a web-based game server on AWS using Infrastructure as Code (Terraform) and configuration management (Ansible), demonstrating modern DevOps practices and cloud infrastructure management.
+This project deployed a web-based game server on AWS using Infrastructure as Code (Terraform) and configuration management (Ansible), covering modern DevOps practices and cloud infrastructure management.
 
 **Final Status:**
 - ✅ Terraform infrastructure deployed

@@ -801,7 +801,7 @@ pipeline {
 
 ## Conclusion
 
-This lab successfully deployed an automated AWS cost monitoring and alerting system, providing daily cost visibility and helping prevent cost overruns through proactive monitoring and alerting.
+This project deployed an automated AWS cost monitoring and alerting system, providing daily cost visibility and helping prevent cost overruns through proactive monitoring and alerting.
 
 **Final Status:**
 - ✅ Terraform infrastructure deployed

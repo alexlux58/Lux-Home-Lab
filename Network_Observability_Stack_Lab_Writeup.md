@@ -919,7 +919,7 @@ curl http://localhost:9200/_cat/indices/filebeat-*
 
 ## Conclusion
 
-This lab successfully deployed a comprehensive observability stack providing metrics collection, log aggregation, and visualization capabilities for the entire home lab infrastructure.
+This project deployed a comprehensive observability stack providing metrics collection, log aggregation, and visualization capabilities for the entire home lab infrastructure.
 
 **Final Status:**
 - ✅ Prometheus collecting metrics

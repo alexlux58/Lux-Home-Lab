@@ -852,9 +852,9 @@ HomeLabWriteup/
 
 ## 🎯 Use Cases & Demonstrations
 
-### For Employers / Portfolio
+### Skills & Capabilities
 
-This lab demonstrates:
+This lab covers:
 
 1. **Network Architecture Design**
    - Secure service boundaries

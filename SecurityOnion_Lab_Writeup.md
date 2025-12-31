@@ -918,7 +918,7 @@ sudo so-monitor-add ens19
 
 ## Conclusion
 
-This lab successfully deployed Security Onion 2.4.90-2 as a VM on Proxmox, configured port mirroring on a managed switch, and resolved multiple networking challenges to achieve full network visibility. The system now passively monitors all network traffic and generates alerts for suspicious activity.
+This project deployed Security Onion 2.4.90-2 as a VM on Proxmox, configured port mirroring on a managed switch, and resolved multiple networking challenges to achieve full network visibility. The system now passively monitors all network traffic and generates alerts for suspicious activity.
 
 **Final Status:**
 - ✅ Traffic capture operational
