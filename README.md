@@ -51,7 +51,7 @@ This home lab demonstrates enterprise-grade network security and infrastructure 
 - **Cloud Infrastructure**: AWS EC2 game server with Infrastructure as Code
 - **Serverless Applications**: AWS Lambda + CloudFront web applications
 - **Cost Management**: Automated AWS cost monitoring and alerting
-- **Centralized Management**: Proxmox virtualization platform
+- **Centralized Management**: Two Proxmox virtualization hosts
 
 ---
 
@@ -65,11 +65,12 @@ See the [Complete Network Diagram](#-complete-network-diagram) above for a visua
 - **Netgear Managed Switch** (192.168.4.53): Port mirroring for traffic capture
   - Port 1: Eero Router (Source for port mirroring)
   - Port 8: Proxmox Sniffer (Destination for port mirroring)
-- **Proxmox Host** (192.168.4.146): Virtualization platform
+- **Proxmox Host 1** (192.168.4.146): Primary virtualization platform
   - **Security Onion VM** (192.168.4.155): IDS/NSM with full packet capture
-  - **NSOT VM** (192.168.5.9): Network Source of Truth (NetBox & Nautobot)
-  - **DevOps Tools VM** (192.168.5.8): Ansible, AWS, Puppet & Jenkins
   - **Observability Stack VM** (192.168.5.34): Prometheus, Grafana, ELK Stack
+- **Proxmox Host 2** (192.168.4.180): Secondary virtualization platform
+  - **DevOps Tools VM** (192.168.5.8): Ansible, AWX, Puppet & Jenkins
+  - **NSOT VM** (192.168.5.9): Network Source of Truth (NetBox & Nautobot)
 - **PiVPN Host** (192.168.4.127): DNS filtering and VPN
   - Pi-hole DNS (Port 53, 80 - LAN only)
   - WireGuard VPN (Port 51820/UDP - WAN exposed)
@@ -175,7 +176,7 @@ Containerized Network Source of Truth platforms deployed via Docker on an Ubuntu
 - ✅ Docker-based deployment
 
 **Components:**
-- Ubuntu VM (192.168.5.9) on Proxmox
+- Ubuntu VM (192.168.5.9) on Proxmox Host 2 (192.168.4.180)
 - NetBox (Port 8000 - LAN only)
 - Nautobot (Port 8081 - LAN only)
 - PostgreSQL databases
@@ -183,13 +184,13 @@ Containerized Network Source of Truth platforms deployed via Docker on an Ubuntu
 
 **Quick Start:**
 1. Read `NSOT_NetBox_Nautobot_Lab_Writeup.md` for complete setup
-2. Create Ubuntu VM on Proxmox
+2. Create Ubuntu VM on Proxmox Host 2 (192.168.4.180)
 3. Install Docker and Docker Compose
 4. Clone repository: `https://github.com/alexlux58/NSOT-Network-Source-of-Truth`
 5. Deploy NetBox or Nautobot using Docker Compose
 
 **Prerequisites:**
-- Proxmox VE 8.x
+- Proxmox VE 8.x (Host 2 at 192.168.4.180)
 - Ubuntu VM (4GB+ RAM, 50GB+ storage)
 - Docker and Docker Compose installed
 - Git for cloning repository
@@ -198,35 +199,37 @@ Containerized Network Source of Truth platforms deployed via Docker on an Ubuntu
 
 ---
 
-### 4. DevOps Tools Stack - Ansible, AWS, Puppet & Jenkins
+### 4. DevOps Tools Stack - Ansible, AWX, Puppet & Jenkins
 
 **File:** `DevOps_Tools_Lab_Writeup.md`
 
-Comprehensive DevOps toolchain deployed on an Ubuntu VM providing infrastructure automation, configuration management, and CI/CD capabilities. Includes Ansible for automation, AWS CLI/SDK for cloud integration, Puppet for configuration management, and Jenkins for continuous integration and deployment.
+Comprehensive DevOps toolchain deployed on an Ubuntu VM providing infrastructure automation, configuration management, and CI/CD capabilities. Includes Ansible for automation, AWX (Ansible Tower) for web-based automation, AWS CLI/SDK for cloud integration, Puppet for configuration management, and Jenkins for continuous integration and deployment.
 
 **Key Features:**
 - ✅ Infrastructure as Code (Ansible playbooks)
+- ✅ Web-based automation (AWX/Ansible Tower)
 - ✅ Cloud automation (AWS CLI & SDK)
 - ✅ Configuration management (Puppet)
 - ✅ CI/CD pipelines (Jenkins)
 - ✅ Integration workflows between tools
 
 **Components:**
-- Ubuntu VM (192.168.5.8) on Proxmox
+- Ubuntu VM (192.168.5.8) on Proxmox Host 2 (192.168.4.180)
 - Ansible (Control node)
+- AWX (Ansible Tower web interface)
 - AWS CLI & boto3 (Python SDK)
 - Puppet (Server/Agent model)
 - Jenkins (Port 8080 - LAN only)
 
 **Quick Start:**
 1. Read `DevOps_Tools_Lab_Writeup.md` for complete setup
-2. Create Ubuntu VM on Proxmox
-3. Install Ansible, AWS CLI, Puppet, and Jenkins
+2. Create Ubuntu VM on Proxmox Host 2 (192.168.4.180)
+3. Install Ansible, AWX, AWS CLI, Puppet, and Jenkins
 4. Configure credentials and SSH keys
 5. Create sample playbooks, manifests, and pipelines
 
 **Prerequisites:**
-- Proxmox VE 8.x
+- Proxmox VE 8.x (Host 2 at 192.168.4.180)
 - Ubuntu VM (4GB+ RAM, 50GB+ storage)
 - Internet access (for AWS API calls)
 - SSH access to managed nodes (for Ansible)
@@ -249,7 +252,7 @@ Comprehensive observability platform deployed via Docker Compose providing metri
 - ✅ Uptime monitoring (Blackbox Exporter)
 
 **Components:**
-- Ubuntu VM (192.168.5.34) on Proxmox
+- Ubuntu VM (192.168.5.34) on Proxmox Host 1 (192.168.4.146)
 - Prometheus (Port 9090 - metrics collection)
 - Grafana (Port 3000 - visualization)
 - Elasticsearch (Port 9200 - log storage)
@@ -260,14 +263,14 @@ Comprehensive observability platform deployed via Docker Compose providing metri
 
 **Quick Start:**
 1. Read `Network_Observability_Stack_Lab_Writeup.md` for complete setup
-2. Create Ubuntu VM on Proxmox
+2. Create Ubuntu VM on Proxmox Host 1 (192.168.4.146)
 3. Install Docker and Docker Compose
 4. Clone repository: `https://github.com/alexlux58/Network-Observability-Stack`
 5. Run `./setup.sh` and `./manage.sh start`
 6. Access Grafana at http://192.168.5.34:3000
 
 **Prerequisites:**
-- Proxmox VE 8.x
+- Proxmox VE 8.x (Host 1 at 192.168.4.146)
 - Ubuntu VM (8GB+ RAM, 100GB+ storage recommended)
 - Docker and Docker Compose installed
 - Git for cloning repository
@@ -400,42 +403,6 @@ Automated AWS cost monitoring and alerting system that sends daily cost reports 
 
 ---
 
-### 4. DevOps Tools Stack - Ansible, AWS, Puppet & Jenkins
-
-**File:** `DevOps_Tools_Lab_Writeup.md`
-
-Comprehensive DevOps toolchain deployed on an Ubuntu VM providing infrastructure automation, configuration management, and CI/CD capabilities. Includes Ansible for automation, AWS CLI/SDK for cloud integration, Puppet for configuration management, and Jenkins for continuous integration and deployment.
-
-**Key Features:**
-- ✅ Infrastructure as Code (Ansible playbooks)
-- ✅ Cloud automation (AWS CLI & SDK)
-- ✅ Configuration management (Puppet)
-- ✅ CI/CD pipelines (Jenkins)
-- ✅ Integration workflows between tools
-
-**Components:**
-- Ubuntu VM (192.168.5.8) on Proxmox
-- Ansible (Control node)
-- AWS CLI & boto3 (Python SDK)
-- Puppet (Server/Agent model)
-- Jenkins (Port 8080 - LAN only)
-
-**Quick Start:**
-1. Read `DevOps_Tools_Lab_Writeup.md` for complete setup
-2. Create Ubuntu VM on Proxmox
-3. Install Ansible, AWS CLI, Puppet, and Jenkins
-4. Configure credentials and SSH keys
-5. Create sample playbooks, manifests, and pipelines
-
-**Prerequisites:**
-- Proxmox VE 8.x
-- Ubuntu VM (4GB+ RAM, 50GB+ storage)
-- Internet access (for AWS API calls)
-- SSH access to managed nodes (for Ansible)
-- AWS account (for AWS integration)
-
----
-
 ## 🚀 Getting Started
 
 ### Quick Links
@@ -473,8 +440,10 @@ Comprehensive DevOps toolchain deployed on an Ubuntu VM providing infrastructure
 If building the complete lab from scratch, follow this order for optimal integration:
 
 **Phase 1: Foundation (Week 1)**
-1. **Proxmox Host Setup**
-   - Install Proxmox VE
+1. **Proxmox Hosts Setup**
+   - Install Proxmox VE on both hosts
+   - Proxmox Host 1 (192.168.4.146): Primary host
+   - Proxmox Host 2 (192.168.4.180): Secondary host
    - Configure network interfaces
    - Set up bridges
 
@@ -490,6 +459,7 @@ If building the complete lab from scratch, follow this order for optimal integra
    - Track IP addresses and devices
    - Lower resource requirements (4GB+ RAM)
    - **Benefit**: Document all services as you deploy them
+   - **Location**: Proxmox Host 2 (192.168.4.180)
 
 4. **DevOps Tools**
    - Infrastructure automation and configuration management
@@ -505,6 +475,7 @@ If building the complete lab from scratch, follow this order for optimal integra
    - Alerting capabilities
    - Higher resource requirements (8GB+ RAM, 100GB+ storage)
    - **Benefit**: Monitor all services you've deployed
+   - **Location**: Proxmox Host 1 (192.168.4.146)
 
 6. **Security Onion** (Advanced - requires more resources)
    - Requires more resources (16GB+ RAM)
@@ -558,9 +529,11 @@ If building the complete lab from scratch, follow this order for optimal integra
 - Detect unauthorized VPN connections
 
 **All Services → Proxmox:**
-- Centralized virtualization platform
+- Centralized virtualization platform (2 Proxmox hosts)
 - Resource management and monitoring
 - Backup and disaster recovery
+- Proxmox Host 1 (192.168.4.146): Security Onion, Observability Stack
+- Proxmox Host 2 (192.168.4.180): DevOps Tools, NSOT
 
 **NetBox/Nautobot → All Services:**
 - Document all network devices and IP addresses
@@ -570,6 +543,7 @@ If building the complete lab from scratch, follow this order for optimal integra
 
 **DevOps Tools → All Services:**
 - Ansible automates configuration of all lab services
+- AWX provides web-based Ansible automation interface
 - Jenkins pipelines for automated deployments
 - Puppet ensures consistent configurations
 - AWS integration for cloud resources
@@ -624,10 +598,15 @@ AWS Services (Cloud) → Cost Alerting (Cost Management)
 
 ### Hardware Resources
 
-**Proxmox Host:**
-- Intel NUC Mini PC
-- Multiple network interfaces
-- SSD storage
+**Proxmox Hosts:**
+- **Proxmox Host 1** (192.168.4.146): Intel NUC Mini PC
+  - Multiple network interfaces
+  - SSD storage
+  - Hosts: Security Onion VM, Observability Stack VM
+- **Proxmox Host 2** (192.168.4.180): Secondary virtualization host
+  - Multiple network interfaces
+  - SSD storage
+  - Hosts: DevOps Tools VM, NSOT VM
 
 **Security Onion VM:**
 - 16GB RAM (EVAL mode)
@@ -640,17 +619,17 @@ AWS Services (Cloud) → Cost Alerting (Cost Management)
 - 8GB+ storage
 
 **NSOT VM:**
-- Ubuntu VM on Proxmox
+- Ubuntu VM on Proxmox Host 2 (192.168.4.180)
 - 4GB RAM (8GB+ recommended)
 - 50GB+ storage
 
 **DevOps Tools VM:**
-- Ubuntu VM on Proxmox
+- Ubuntu VM on Proxmox Host 2 (192.168.4.180)
 - 4GB RAM (8GB+ recommended)
 - 50GB+ storage
 
 **Observability Stack VM:**
-- Ubuntu VM on Proxmox
+- Ubuntu VM on Proxmox Host 1 (192.168.4.146)
 - 8GB RAM (16GB+ recommended)
 - 100GB+ storage
 
@@ -932,6 +911,7 @@ This lab demonstrates:
 
 **DevOps & Automation:**
 - Ansible (Configuration Management)
+- AWX (Ansible Tower - Web-based Automation)
 - Puppet (Configuration Management)
 - Jenkins (CI/CD)
 - Terraform (Infrastructure as Code)
@@ -1117,7 +1097,7 @@ This lab demonstrates:
 | 1 | Security Onion | On-Prem | VM (192.168.4.155) | https://192.168.4.155 | IDS/NSM, Elastic Stack, Suricata, Zeek |
 | 2 | PiVPN + Pi-hole | On-Prem | Host (192.168.4.127) | http://192.168.4.127/admin | DNS, WireGuard, Pi-hole |
 | 3 | NSOT | On-Prem | VM (192.168.5.9) | http://192.168.5.9:8000 | NetBox, Nautobot, Docker, PostgreSQL |
-| 4 | DevOps Tools | On-Prem | VM (192.168.5.8) | http://192.168.5.8:8080 | Ansible, Puppet, Jenkins, AWS CLI |
+| 4 | DevOps Tools | On-Prem | VM (192.168.5.8) | http://192.168.5.8:8080 | Ansible, AWX, Puppet, Jenkins, AWS CLI |
 | 5 | Observability Stack | On-Prem | VM (192.168.5.34) | http://192.168.5.34:3000 | Prometheus, Grafana, ELK Stack |
 | 6 | AWS Game Server | Cloud | AWS EC2 | https://games.alexflux.com | Terraform, Ansible, Nginx, Docker |
 | 7 | NetKnife | Cloud | AWS Lambda/CF | https://tools.alexflux.com | Serverless, React, TypeScript |
