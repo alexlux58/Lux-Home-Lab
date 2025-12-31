@@ -365,6 +365,10 @@ Serverless web application providing network engineers with essential tools acce
 
 **File:** `AWS_Cost_Alerting_Lab_Writeup.md`
 
+![AWS Cost Alert Email](images/AWS-costalert-email.png)
+
+*Example daily cost report email showing cost breakdown and top services.*
+
 Automated AWS cost monitoring and alerting system that sends daily cost reports via email at 7am, providing visibility into AWS spending and helping prevent cost overruns. Uses serverless architecture with Infrastructure as Code (Terraform) for deployment.
 
 **Key Features:**
@@ -374,10 +378,6 @@ Automated AWS cost monitoring and alerting system that sends daily cost reports 
 - ✅ Month-to-date and daily cost tracking
 - ✅ Report archiving in S3
 - ✅ Optional cost remediation
-
-![AWS Cost Alert Email](images/AWS-costalert-email.png)
-
-*Example daily cost report email showing cost breakdown and top services.*
 
 **Components:**
 - AWS Lambda (cost reporter function)

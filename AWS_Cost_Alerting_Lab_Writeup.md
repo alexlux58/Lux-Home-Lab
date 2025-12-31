@@ -8,6 +8,10 @@
 
 > **Quick Reference Available**: For command cheat sheets and quick troubleshooting, see `QUICK_REFERENCE.md` in this directory.
 
+![AWS Cost Alert Email](images/AWS-costalert-email.png)
+
+*Example daily cost report email showing previous day's costs, month-to-date totals, and top services breakdown.*
+
 ---
 
 ## Table of Contents
@@ -359,10 +363,6 @@ aws sesv2 put-account-details \
 - Top N services breakdown
 - Cost drivers (if enabled)
 - Link to archived report in S3
-
-![AWS Cost Alert Email](images/AWS-costalert-email.png)
-
-*Example daily cost report email showing previous day's costs, month-to-date totals, and top services breakdown.*
 
 ### Manual Report Generation
 
