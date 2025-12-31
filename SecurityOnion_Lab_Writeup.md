@@ -937,5 +937,18 @@ This lab successfully deployed Security Onion 2.4.90-2 as a VM on Proxmox, confi
 
 ---
 
+## Related Projects
+
+This project integrates with other lab services:
+
+- **PiVPN/Pi-hole**: Monitor DNS queries and correlate with network traffic; can block malicious domains via Pi-hole
+- **Network Observability Stack**: Export Security Onion metrics to Prometheus; correlate alerts with infrastructure metrics
+- **NSOT (NetBox/Nautobot)**: Document Security Onion VM and findings in network documentation
+- **DevOps Tools**: Automate Security Onion rule updates via Ansible; deploy via Jenkins pipelines
+
+For complete lab documentation, see `README.md` in the HomeLabWriteup directory.
+
+---
+
 **End of Lab Writeup**
 
